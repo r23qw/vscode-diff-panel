@@ -19,7 +19,7 @@
 	"activationEvents": [
 		"onStartupFinished"
 	],
-	"icon": "icon.png",
+	"icon": "icon.jpg",
 	"publisher": "aaron00101010",
 	"repository": "https://github.com/Aaron00101010/vscode-diff-panel",
 	"main": "./dist/extension.js",
