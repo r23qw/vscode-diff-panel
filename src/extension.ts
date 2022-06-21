@@ -8,6 +8,7 @@ let statusItem = vscode.window.createStatusBarItem(
 );
 statusItem.command = "diff-panel.newPanel";
 statusItem.text = "Diff Panel";
+statusItem.tooltip = "Open New Diff Panel";
 statusItem.show();
 
 const createDiffFiles = async (context: vscode.ExtensionContext) => {
