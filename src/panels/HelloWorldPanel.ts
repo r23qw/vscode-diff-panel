@@ -2,6 +2,7 @@ import type { Disposable, Webview, WebviewPanel } from 'vscode'
 import { Uri, ViewColumn, window } from 'vscode'
 import { getUri } from '../utilities/getUri'
 import { getNonce } from '../utilities/getNonce'
+import type { IMessage } from '../../shared/types'
 
 /**
  * This class manages the state and behavior of HelloWorld webview panels.
@@ -117,12 +118,12 @@ export class HelloWorldPanel {
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-          <link rel="stylesheet" type="text/css" href="${stylesUri}">
+          <link rel="stylesheet" type="text/css" href="${stylesUri.toString()}">
           <title>Hello World</title>
         </head>
         <body>
           <div id="app"></div>
-          <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
+          <script type="module" nonce="${nonce}" src="${scriptUri.toString()}"></script>
         </body>
       </html>
     `
@@ -137,14 +138,14 @@ export class HelloWorldPanel {
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
-      (message: any) => {
-        const command = message.command
+      async (message: IMessage) => {
+        const command: string = message.command
         const text = message.text
 
         switch (command) {
           case 'hello':
             // Code that should run in response to the hello message command
-            window.showInformationMessage(text)
+            await window.showInformationMessage(text)
 
           // Add more switch case statements here as more webview message commands
           // are created within the webview context (i.e. inside media/main.js)

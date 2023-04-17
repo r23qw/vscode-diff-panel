@@ -2,5 +2,11 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": ["webview-ui/**/*", "webview-ui/**/*.vue","src/**/*",".eslintrc.js"]
+  "include": [
+    "webview-ui/**/*",
+    "webview-ui/**/*.vue",
+    "src/**/*",
+    ".eslintrc.js",
+    "shared/**/*",
+  ]
 }

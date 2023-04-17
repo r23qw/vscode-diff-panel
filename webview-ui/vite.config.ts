@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { URL, fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -8,7 +10,6 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },

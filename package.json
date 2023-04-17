@@ -6,11 +6,13 @@
   "categories": [
     "Other"
   ],
-  "main": "./out/extension.js",
+  "main": "./out/src/extension.js",
   "engines": {
     "vscode": "^1.46.0"
   },
-  "activationEvents": [],
+  "activationEvents": [    
+
+  ],
   "contributes": {
     "commands": [
       {
