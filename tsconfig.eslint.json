@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["webview-ui/**/*", "webview-ui/**/*.vue","src/**/*",".eslintrc.js"]
+}
