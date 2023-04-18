@@ -1,13 +1,10 @@
 import type { ExtensionContext } from 'vscode'
-import { commands } from 'vscode'
-import { HelloWorldPanel } from './panels/HelloWorldPanel'
+import { registerWebviewViewProvider } from './activity-bar'
+import { registerCommands } from './commands'
+import { registerScheme } from './scheme'
 
 export function activate(context: ExtensionContext) {
-  // Create the show hello world command
-  const showHelloWorldCommand = commands.registerCommand('hello-world.showHelloWorld', () => {
-    HelloWorldPanel.render(context.extensionUri)
-  })
-
-  // Add command to the extension context
-  context.subscriptions.push(showHelloWorldCommand)
+  registerCommands()
+  registerScheme()
+  registerWebviewViewProvider(context)
 }

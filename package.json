@@ -1,25 +1,44 @@
 {
-  "name": "hello-world-vue",
-  "displayName": "hello-world-vue",
-  "version": "0.0.1",
-  "description": "A hello world sample extension to demonstrate using Vue with the Webview UI Toolkit for VS Code.",
+  "name": "diff-panel",
+  "displayName": "Diff Panel",
+  "version": "1.0.0",
+  "description": "A quick way to compare two files",
+  "author": "Aaron00101010",
   "categories": [
     "Other"
   ],
   "main": "./out/src/extension.js",
+  "browser": "./out/src/extension.js",
   "engines": {
     "vscode": "^1.46.0"
   },
   "activationEvents": [    
-
   ],
   "contributes": {
     "commands": [
       {
-        "command": "hello-world.showHelloWorld",
-        "title": "Hello World (Vue): Show"
+        "command": "diff-panel.newDiffEditor",
+        "title": "Diff Panel: New Diff Editor"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "diff-panel",
+          "title": "Diff Panel",
+          "icon": "assets/favicon.ico"
+        }
+      ]
+    },
+    "views": {
+			"diff-panel": [
+				{
+					"id": "diff-panel",
+					"name": "Diff Panel",
+          "type": "webview"
+				}
+			]
+    }
   },
   "scripts": {
     "install:all": "pnpm install && cd webview-ui && pnpm install",

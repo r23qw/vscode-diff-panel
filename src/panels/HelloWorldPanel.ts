@@ -2,7 +2,7 @@ import type { Disposable, Webview, WebviewPanel } from 'vscode'
 import { Uri, ViewColumn, window } from 'vscode'
 import { getUri } from '../utilities/getUri'
 import { getNonce } from '../utilities/getNonce'
-import type { IMessage } from '../../shared/types'
+import type { Message } from '../../shared/message'
 
 /**
  * This class manages the state and behavior of HelloWorld webview panels.
@@ -138,14 +138,14 @@ export class HelloWorldPanel {
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
-      async (message: IMessage) => {
+      async (message: Message) => {
         const command: string = message.command
-        const text = message.text
+        const text = message.payload
 
         switch (command) {
           case 'hello':
             // Code that should run in response to the hello message command
-            await window.showInformationMessage(text)
+            await window.showInformationMessage(text.toString())
 
           // Add more switch case statements here as more webview message commands
           // are created within the webview context (i.e. inside media/main.js)

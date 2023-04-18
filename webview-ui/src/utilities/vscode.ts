@@ -1,5 +1,5 @@
 import type { WebviewApi } from 'vscode-webview'
-import type { IMessage } from '../../../shared/types'
+import type { Message } from '../../../shared/message'
 
 /**
  * A utility wrapper around the acquireVsCodeApi() function, which enables
@@ -28,7 +28,7 @@ class VSCodeAPIWrapper {
    *
    * @param message Abitrary data (must be JSON serializable) to send to the extension context.
    */
-  public postMessage(message: IMessage) {
+  public postMessage(message: Message) {
     if (this.vsCodeApi)
       this.vsCodeApi.postMessage(message)
     else
@@ -75,5 +75,4 @@ class VSCodeAPIWrapper {
   }
 }
 
-// Exports class singleton to prevent multiple invocations of acquireVsCodeApi.
 export const vscode = new VSCodeAPIWrapper()
