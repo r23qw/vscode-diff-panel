@@ -11,11 +11,7 @@ function handleClick() {
 </script>
 
 <template>
-  <vscode-button class="w-full" @click="handleClick">
+  <vscode-button class="w-full mt-3" type="primary" @click="handleClick">
     New Diff Editor
   </vscode-button>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

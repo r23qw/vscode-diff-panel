@@ -1,15 +1,15 @@
-import { Uri, commands } from 'vscode'
-import { EXTENSION_ID, EXTENSTION_SCHEME } from '../../shared/constants'
-import { getNonce } from '../utilities/getNonce'
+import type { ExtensionContext } from 'vscode'
+import { commands } from 'vscode'
+import { EXTENSION_ID } from '../../shared/constants'
+import { DiffPanel } from '../panels/DiffPanel'
 
-export function registerCommands() {
+export function registerCommands(context: ExtensionContext) {
   const commandList = [
     {
       command: 'newDiffEditor',
-      handler: async () => {
-        const text1 = Uri.parse(`${EXTENSTION_SCHEME}:A?_ts=${getNonce()}`)
-        const text2 = Uri.parse(`${EXTENSTION_SCHEME}:B?_ts=${getNonce()}`)
-        await commands.executeCommand('vscode.diff', text1, text2, 'Diff Panel', { preview: false })
+      handler: () => {
+        // eslint-disable-next-line no-new
+        new DiffPanel(context)
       },
     },
   ]

@@ -38,7 +38,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'build',
+    outDir: 'panel-build',
     rollupOptions: {
       output: {
         entryFileNames: 'assets/[name].js',

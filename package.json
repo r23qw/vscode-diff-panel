@@ -1,18 +1,9 @@
 {
-  "name": "diff-panel",
-  "displayName": "Diff Panel",
-  "version": "1.0.0",
-  "description": "A quick way to compare two files",
+  "activationEvents": [],
   "author": "Aaron00101010",
+  "browser": "./out/src/extension.js",
   "categories": [
     "Other"
-  ],
-  "main": "./out/src/extension.js",
-  "browser": "./out/src/extension.js",
-  "engines": {
-    "vscode": "^1.46.0"
-  },
-  "activationEvents": [    
   ],
   "contributes": {
     "commands": [
@@ -21,24 +12,6 @@
         "title": "Diff Panel: New Diff Editor"
       }
     ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "diff-panel",
-          "title": "Diff Panel",
-          "icon": "$(diff)"
-        }
-      ]
-    },
-    "views": {
-			"diff-panel": [
-				{
-					"id": "diff-panel",
-					"name": "Diff Panel",
-          "type": "webview"
-				}
-			]
-    },
     "menus": {
       "editor/title": [
         {
@@ -47,28 +20,30 @@
           "when": "resourceScheme == diff-panel"
         }
       ]
+    },
+    "views": {
+      "diff-panel": [
+        {
+          "id": "diff-panel",
+          "name": "Diff Panel",
+          "type": "webview"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "icon": "$(diff)",
+          "id": "diff-panel",
+          "title": "Diff Panel"
+        }
+      ]
     }
-  },
-  "scripts": {
-    "install:all": "pnpm install && cd webview-ui && pnpm install",
-    "start:webview": "cd webview-ui && pnpm run start",
-    "build:webview": "cd webview-ui && pnpm run build",
-    "vscode:prepublish": "pnpm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "pnpm run compile && pnpm run lint",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
   },
   "dependencies": {
     "@vscode/codicons": "^0.0.32"
   },
+  "description": "A quick way to compare two files",
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.4",
     "@types/glob": "^7.2.0",
@@ -81,5 +56,31 @@
     "simple-git-hooks": "^2.8.1",
     "typescript": "^4.9.5",
     "vscode-test": "^1.6.1"
-  }
+  },
+  "displayName": "Diff Panel",
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  },
+  "main": "./out/src/extension.js",
+  "name": "diff-panel",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "install:all": "pnpm install && cd webview-ui && pnpm install",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "start:webview": "cd webview-ui && pnpm run start",
+    "build:webview": "cd webview-ui && pnpm run build",
+    "start:webview:panel": "cd webview-ui && pnpm run start -c",
+    "build:webview:panel": "cd webview-ui && pnpm run build",
+    "vscode:prepublish": "pnpm run compile",
+    "watch": "tsc -watch -p ./"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "version": "1.0.0"
 }

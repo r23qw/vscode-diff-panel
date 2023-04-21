@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import NewDiffEditorButton from './components/NewDiffEditorButton.vue'
+import Panel from './components/Panel.vue'
 </script>
 
 <template>
-  <main class="flex flex-col mt-1">
+  <main class="flex flex-col">
     <NewDiffEditorButton />
-    <vscode-divider class="mt-4 mb-4" />
+    <Panel />
   </main>
 </template>
 
 <style>
-
+body{
+  padding: 0 20px;
+}
 </style>

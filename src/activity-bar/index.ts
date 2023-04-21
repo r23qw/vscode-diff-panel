@@ -31,12 +31,9 @@ function getContent(webview: Webview, extensionUri: Uri) {
 
 function registerOnDidReceiveMessage(webview: Webview) {
   webview.onDidReceiveMessage(async (message: Message) => {
-    if (message.type === 'command') {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      vscode.window.showInformationMessage(`Command: ${message.command}`)
+    if (message.type === 'command')
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      await vscode.commands.executeCommand(`${EXTENSION_ID}.${message.command}`, ...message.payload)
-    }
+      await vscode.commands.executeCommand<any>(`${EXTENSION_ID}.${message.command}`, ...message.payload)
   })
 }
 
