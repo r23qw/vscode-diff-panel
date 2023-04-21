@@ -1,9 +1,8 @@
 import type { Disposable, ExtensionContext, WebviewPanel } from 'vscode'
 import { Uri, ViewColumn, commands, window } from 'vscode'
 import { getUri } from '../utilities/getUri'
-import { getNonce } from '../utilities/getNonce'
 import type { Message } from '../../shared/message'
-import { EXTENSION_ID } from '../../shared/constants'
+import { EXTENSION_ID, EXTENSION_SOURCE_ROOT_PROPERTY } from '../../shared/constants'
 
 export class DiffPanel {
   disposables: Disposable[] = []
@@ -26,13 +25,11 @@ export class DiffPanel {
   getWebviewContent() {
     const extensionUri = this.context.extensionUri
     const webview = this.panel.webview
-
+    const baseUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets'])
     const stylesUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.panel.css'])
     const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'panel.js'])
     const stylesUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.css'])
     const scriptUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.js'])
-
-    const nonce = getNonce()
 
     return /* html */ `
       <!DOCTYPE html>
@@ -40,15 +37,17 @@ export class DiffPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource.toString()}; script-src 'nonce-${nonce}';">
           <link rel="stylesheet" type="text/css" href="${stylesUri.toString()}">
           <link rel="stylesheet" type="text/css" href="${stylesUri2.toString()}">
-          <link rel="modulepreload" nonce="${nonce}" crossorigin href="${scriptUri2.toString()}">
+          <link rel="modulepreload"  crossorigin href="${scriptUri2.toString()}">
           <title>diff panel</title>
+          <script>
+            window["${EXTENSION_SOURCE_ROOT_PROPERTY}"] = "${baseUri.toString()}"
+          </script>
         </head>
         <body>
           <div id="app"></div>
-          <script type="module" nonce="${nonce}" src="${scriptUri.toString()}"></script>
+          <script type="module" src="${scriptUri.toString()}"></script>
         </body>
       </html>
     `
