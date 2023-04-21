@@ -1,7 +1,7 @@
 import type { ExtensionContext } from 'vscode'
 import { commands } from 'vscode'
 import { EXTENSION_ID } from '../../shared/constants'
-import { DiffPanel } from '../panels/DiffPanel'
+import { DiffPanel } from '../panels/diff-panel'
 
 export function registerCommands(context: ExtensionContext) {
   const commandList = [

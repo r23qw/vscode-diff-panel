@@ -27,8 +27,10 @@ export class DiffPanel {
     const extensionUri = this.context.extensionUri
     const webview = this.panel.webview
 
-    const stylesUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.css'])
-    const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.js'])
+    const stylesUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.panel.css'])
+    const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'panel.js'])
+    const stylesUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.css'])
+    const scriptUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.js'])
 
     const nonce = getNonce()
 
@@ -40,7 +42,9 @@ export class DiffPanel {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource.toString()}; script-src 'nonce-${nonce}';">
           <link rel="stylesheet" type="text/css" href="${stylesUri.toString()}">
-          <title>Hello World</title>
+          <link rel="stylesheet" type="text/css" href="${stylesUri2.toString()}">
+          <link rel="modulepreload" nonce="${nonce}" crossorigin href="${scriptUri2.toString()}">
+          <title>diff panel</title>
         </head>
         <body>
           <div id="app"></div>

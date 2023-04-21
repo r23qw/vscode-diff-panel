@@ -68,15 +68,13 @@
   "name": "diff-panel",
   "scripts": {
     "compile": "tsc -p ./",
+    "dev:webview": "cd webview-ui && pnpm run dev",
+    "build:webview": "cd webview-ui && pnpm run build",
     "install:all": "pnpm install && cd webview-ui && pnpm install",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "pretest": "pnpm run compile && pnpm run lint",
-    "start:webview": "cd webview-ui && pnpm run start",
-    "build:webview": "cd webview-ui && pnpm run build",
-    "start:webview:panel": "cd webview-ui && pnpm run start -c",
-    "build:webview:panel": "cd webview-ui && pnpm run build",
-    "vscode:prepublish": "pnpm run compile",
+    "vscode:prepublish": "pnpm run compile && pnpm run build:webview",
     "watch": "tsc -watch -p ./"
   },
   "simple-git-hooks": {

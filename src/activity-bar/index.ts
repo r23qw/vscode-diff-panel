@@ -8,7 +8,9 @@ import { EXTENSION_ID } from '../../shared/constants'
 
 function getContent(webview: Webview, extensionUri: Uri) {
   const stylesUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.css'])
-  const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.js'])
+  const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'activity-bar.js'])
+  const stylesUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.css'])
+  const scriptUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.js'])
   const nonce = getNonce()
 
   return /* html */ `
@@ -19,7 +21,9 @@ function getContent(webview: Webview, extensionUri: Uri) {
            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
            <link rel="stylesheet" type="text/css" href="${stylesUri.toString()}">
-           <title>Hello World</title>
+           <link rel="stylesheet" type="text/css" href="${stylesUri2.toString()}">
+           <link rel="modulepreload" nonce="${nonce}" crossorigin href="${scriptUri2.toString()}">
+           <title>activity bar</title>
          </head>
          <body>
            <div id="app"></div>

@@ -12,6 +12,6 @@ import Panel from './components/Panel.vue'
 
 <style>
 body{
-  padding: 0 20px;
+  padding: 20px;
 }
 </style>

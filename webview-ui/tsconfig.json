@@ -1,6 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["*.d.ts", "src/**/*", "src/**/*.vue"],
+  "exclude": ["build"],
   "compilerOptions": {
     "module": "esnext",
     "baseUrl": ".",

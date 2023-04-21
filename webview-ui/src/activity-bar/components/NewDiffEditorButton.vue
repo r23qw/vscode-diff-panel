@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vscode } from '../utilities/vscode'
+import { vscode } from '@/utilities/vscode'
 
 function handleClick() {
   vscode.postMessage({

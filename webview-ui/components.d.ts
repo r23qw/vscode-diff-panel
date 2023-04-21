@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    NewDiffEditorButton: typeof import('./src/components/NewDiffEditorButton.vue')['default']
-    Panel: typeof import('./src/components/Panel.vue')['default']
+    AButton: typeof import('@arco-design/web-vue')['Button']
   }
 }
