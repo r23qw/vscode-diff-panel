@@ -7,6 +7,9 @@ dependencies:
   '@monaco-editor/loader':
     specifier: ^1.3.3
     version: 1.3.3(monaco-editor@0.37.1)
+  '@vscode/codicons':
+    specifier: ^0.0.32
+    version: 0.0.32
   '@vscode/webview-ui-toolkit':
     specifier: ^1.2.1
     version: 1.2.1(react@18.2.0)
@@ -24,6 +27,9 @@ devDependencies:
   '@types/vscode-webview':
     specifier: ^1.57.0
     version: 1.57.0
+  '@unocss/transformer-directives':
+    specifier: ^0.51.6
+    version: 0.51.6
   '@vitejs/plugin-vue':
     specifier: ^4.0.0
     version: 4.1.0(vite@4.3.1)(vue@3.2.33)
@@ -505,6 +511,10 @@ packages:
     resolution: {integrity: sha512-glPBN989gJNNVzjulH6NlLAekBLuZbsFRIDqwZ1ZaoWY6teu8Z6uo3pqFCy+ibjxZSEha77BcnKfDzd2Hccsdw==}
     dev: true
 
+  /@unocss/core@0.51.6:
+    resolution: {integrity: sha512-1P2AVWkxsjSC2djg6bN5qApmONtECZP9ODphhWhpLgk1xKMopOFpJr2ZvkLhw3URt2SR3Pu/5iFklSIu6eAFhA==}
+    dev: true
+
   /@unocss/extractor-arbitrary-variants@0.51.4:
     resolution: {integrity: sha512-WfRsMEYthIkZjdTaTpzquTMtsb+GCp18tHM3CjlR9fsM7BGDF1rmMwcqWDzQc+wtiW+mzQFybL3chBgNdPloYA==}
     dependencies:
@@ -623,6 +633,13 @@ packages:
       css-tree: 2.3.1
     dev: true
 
+  /@unocss/transformer-directives@0.51.6:
+    resolution: {integrity: sha512-8Q0efqZ/VCrR9A3wY3PtxdnuRKN2Y/3zwcqe4RiRNxIGoOqmUpXYiX6xs4YcHFKKooQ/aBd1mVh53lM/BKKoSg==}
+    dependencies:
+      '@unocss/core': 0.51.6
+      css-tree: 2.3.1
+    dev: true
+
   /@unocss/transformer-variant-group@0.51.4:
     resolution: {integrity: sha512-4MD89Qgzqkc67/22RZ5a7mePCQQXuJR5ciCpEiszIs7utclWcRh555vbZ7oxxls6YHBVnKW7hpKcK+wiXLAnJQ==}
     dependencies:
@@ -689,6 +706,10 @@ packages:
       '@vue/compiler-sfc': 3.2.47
       '@vue/reactivity': 3.2.47
     dev: true
+
+  /@vscode/codicons@0.0.32:
+    resolution: {integrity: sha512-3lgSTWhAzzWN/EPURoY4ZDBEA80OPmnaknNujA3qnI4Iu7AONWd9xF3iE4L+4prIe8E3TUnLQ4pxoaFTEEZNwg==}
+    dev: false
 
   /@vscode/webview-ui-toolkit@1.2.1(react@18.2.0):
     resolution: {integrity: sha512-ZpVqLxoFWWk8mmAN7jr1v9yjD6NGBIoflAedNSusmaViqwHZ2znKBwAwcumLOlNlqmST6QMkiTVys7O8rzfd0w==}
