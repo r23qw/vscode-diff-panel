@@ -2,7 +2,7 @@ import type { Disposable, ExtensionContext, WebviewPanel } from 'vscode'
 import { Uri, ViewColumn, commands, window } from 'vscode'
 import { getUri } from '../utilities/getUri'
 import type { Message } from '../../shared/message'
-import { EXTENSION_ID, EXTENSION_SOURCE_ROOT_PROPERTY } from '../../shared/constants'
+import { EXTENSION_ID } from '../../shared/constants'
 
 export class DiffPanel {
   disposables: Disposable[] = []
@@ -26,10 +26,12 @@ export class DiffPanel {
     const extensionUri = this.context.extensionUri
     const webview = this.panel.webview
     const baseUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets'])
-    const stylesUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.panel.css'])
-    const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'panel.js'])
-    const stylesUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.css'])
-    const scriptUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.js'])
+    const cssLinks = ['index.panel.css', '_plugin-vue_export-helper.css']
+      .map(filename => `<link rel="stylesheet" type="text/css" href="${baseUri.toString()}/${filename}"/>`)
+      .join('')
+    const scriptLinks = ['panel.js', '_plugin-vue_export-helper.js']
+      .map(filename => `<script type="module" src="${baseUri.toString()}/${filename}"></script>`)
+      .join('')
 
     return /* html */ `
       <!DOCTYPE html>
@@ -37,17 +39,12 @@ export class DiffPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <link rel="stylesheet" type="text/css" href="${stylesUri.toString()}">
-          <link rel="stylesheet" type="text/css" href="${stylesUri2.toString()}">
-          <link rel="modulepreload"  crossorigin href="${scriptUri2.toString()}">
+          ${cssLinks}
           <title>diff panel</title>
-          <script>
-            window["${EXTENSION_SOURCE_ROOT_PROPERTY}"] = "${baseUri.toString()}"
-          </script>
         </head>
         <body>
           <div id="app"></div>
-          <script type="module" src="${scriptUri.toString()}"></script>
+          ${scriptLinks}
         </body>
       </html>
     `

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { fileURLToPath } from 'node:url'
 import path, { dirname } from 'node:path'
 
@@ -11,7 +10,6 @@ import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
-import { EXTENSION_SOURCE_ROOT_PROPERTY } from '../shared/constants'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -44,6 +42,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'esnext',
     outDir: 'build',
     rollupOptions: {
       input: {
@@ -55,15 +54,6 @@ export default defineConfig({
         chunkFileNames: 'assets/[name].js',
         assetFileNames: 'assets/[name].[ext]',
       },
-    },
-  },
-  experimental: {
-    renderBuiltUrl(filename: string, { hostType }: { hostType: 'js' | 'css' | 'html' }) {
-      if (hostType === 'js')
-        return { runtime: `window[${EXTENSION_SOURCE_ROOT_PROPERTY}](${JSON.stringify(filename)})` }
-
-      else
-        return { relative: true }
     },
   },
 })

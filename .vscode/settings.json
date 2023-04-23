@@ -14,5 +14,6 @@
     "source.fixAll.eslint": true
   },
   "editor.inlayHints.enabled": "offUnlessPressed",
-  "unocss.root": "webview-ui"
+  "unocss.root": "webview-ui",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
