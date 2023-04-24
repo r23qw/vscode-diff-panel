@@ -2,32 +2,30 @@ import { Uri } from 'vscode'
 import type { ExtensionContext, Webview } from 'vscode'
 import * as vscode from 'vscode'
 import { getUri } from '../utilities/getUri'
-import { getNonce } from '../utilities/getNonce'
 import type { Message } from '../../shared/message'
 import { EXTENSION_ID } from '../../shared/constants'
 
 function getContent(webview: Webview, extensionUri: Uri) {
-  const stylesUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'index.css'])
-  const scriptUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', 'activity-bar.js'])
-  const stylesUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.css'])
-  const scriptUri2 = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets', '_plugin-vue_export-helper.js'])
-  const nonce = getNonce()
-
+  const baseUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets'])
+  const cssLinks = ['index.css', '_plugin-vue_export-helper.css']
+    .map(filename => `<link rel="stylesheet" type="text/css" href="${baseUri.toString()}/${filename}"/>`)
+    .join('')
+  const scriptLinks = ['activity-bar.js', '_plugin-vue_export-helper.js']
+    .map(filename => `<script type="module" src="${baseUri.toString()}/${filename}"></script>`)
+    .join('')
+  const iconCssUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'codicon.css'])
   return /* html */ `
        <!DOCTYPE html>
        <html lang="en">
          <head>
            <meta charset="UTF-8" />
-           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-           <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-           <link rel="stylesheet" type="text/css" href="${stylesUri.toString()}">
-           <link rel="stylesheet" type="text/css" href="${stylesUri2.toString()}">
-           <link rel="modulepreload" nonce="${nonce}" crossorigin href="${scriptUri2.toString()}">
+           ${cssLinks}
+           <link rel="stylesheet" type="text/css" href="${iconCssUri.toString()}">
            <title>activity bar</title>
          </head>
          <body>
            <div id="app"></div>
-           <script type="module" nonce="${nonce}" src="${scriptUri.toString()}"></script>
+           ${scriptLinks}
          </body>
        </html>
      `

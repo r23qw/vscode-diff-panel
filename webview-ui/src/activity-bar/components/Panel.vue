@@ -11,16 +11,42 @@
       Saved
     </vscode-panel-tab>
     <vscode-panel-view>
-      Problems Content
+      <div class="flex gap-4px w-full">
+        <vscode-text-field placeholder="Search" class="grow-1" />
+        <vscode-button appearance="icon">
+          <span class="codicon codicon-list-filter" />
+        </vscode-button>
+        <vscode-button appearance="icon">
+          <span class="codicon codicon-new-file" />
+        </vscode-button>
+      </div>
     </vscode-panel-view>
     <vscode-panel-view>
-      Output Content
+      <div class="flex gap-4px w-full">
+        <vscode-text-field placeholder="Search" class="grow-1" />
+        <vscode-button appearance="icon">
+          <span class="codicon codicon-list-filter" />
+        </vscode-button>
+        <vscode-button appearance="icon">
+          <span class="codicon codicon-new-file" />
+        </vscode-button>
+        <vscode-button appearance="icon">
+          <span class="codicon codicon-new-folder" />
+        </vscode-button>
+      </div>
     </vscode-panel-view>
   </vscode-panels>
 </template>
 
-<style>
-vscode-panels .tablist{
-  width: 100%;
+<style scoped>
+vscode-panel-tab{
+  --at-apply: focus:border-color-transparent;
+}
+vscode-panels::part(activeIndicator){
+  background-color: var(--panel-tab-active-border);
+}
+vscode-panel-view{
+  padding-left: 0;
+  padding-right: 0;
 }
 </style>

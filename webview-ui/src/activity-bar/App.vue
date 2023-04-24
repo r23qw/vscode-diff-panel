@@ -14,4 +14,7 @@ import Panel from './components/Panel.vue'
 body{
   padding: 20px;
 }
+html{
+  background-color: var(--background)
+}
 </style>

@@ -7,6 +7,6 @@
     "webview-ui/**/*.vue",
     "src/**/*",
     ".eslintrc.js",
-    "shared/**/*",
+    "shared/**/*"
   ]
 }
