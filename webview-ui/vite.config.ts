@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/// <reference types="node" />
+
 import { fileURLToPath } from 'node:url'
 import path, { dirname } from 'node:path'
 
@@ -11,7 +11,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const filePath = fileURLToPath(import.meta.url)
+const __dirname: string = dirname(filePath)
+type _T1 = typeof filePath
 
 // https://vitejs.dev/config/
 export default defineConfig({

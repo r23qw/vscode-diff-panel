@@ -1,7 +1,7 @@
 import type { editor } from 'monaco-editor'
 import type { Monaco } from '@monaco-editor/loader'
 import loader from '@monaco-editor/loader'
-import { type Ref, type ShallowRef } from 'vue'
+import type { Ref } from 'vue'
 import { onMounted, ref, shallowRef } from 'vue'
 import { useMutationObserver } from '@vueuse/core'
 
@@ -12,9 +12,9 @@ let monaco: Monaco | null = null
 function loadMonaco() {
   return loader.init().then(m => monaco = m)
 }
+
 type theme = 'vs' | 'vs-dark' | 'hc-black' | 'hc-light'
 type themeKind = 'vscode-light' | 'vscode-dark' | 'vscode-high-contrast' | 'vscode-high-contrast-light'
-
 function getThemeByKind(themeKind: themeKind): theme {
   const themeKindMap: Record<themeKind, theme> = {
     'vscode-light': 'vs',
@@ -50,9 +50,9 @@ export function createEditor(monaco: Monaco, container: HTMLElement, theme: them
 }
 export function useEditor(container: Ref<HTMLElement | null>) {
   const loading = ref(false)
-  const editor: ShallowRef<editor.IStandaloneDiffEditor | null> = shallowRef(null)
-  const leftModel: ShallowRef<editor.ITextModel | null> = shallowRef(null)
-  const rightModel: ShallowRef<editor.ITextModel | null> = shallowRef(null)
+  const editor = shallowRef<editor.IStandaloneDiffEditor | null> (null)
+  const leftModel = shallowRef<editor.ITextModel | null>(null)
+  const rightModel = shallowRef<editor.ITextModel | null>(null)
 
   onMounted(async () => {
     loading.value = true
