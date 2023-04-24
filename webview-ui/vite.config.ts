@@ -1,5 +1,6 @@
-/// <reference types="node" />
-
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { fileURLToPath } from 'node:url'
 import path, { dirname } from 'node:path'
 
@@ -13,7 +14,6 @@ import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 
 const filePath = fileURLToPath(import.meta.url)
 const __dirname: string = dirname(filePath)
-type _T1 = typeof filePath
 
 // https://vitejs.dev/config/
 export default defineConfig({

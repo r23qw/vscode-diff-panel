@@ -1,7 +1,8 @@
 module.exports = {
   extends: '@antfu',
-  rules: {
-
+  env: {
+    node: true,
+    browser: false,
   },
   parserOptions: {
     project: ['tsconfig.eslint.json'],
