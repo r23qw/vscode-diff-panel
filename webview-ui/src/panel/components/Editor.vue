@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { type Ref, ref } from 'vue'
 import { useEditor } from '../composables/editor'
 
 const editorRef = ref<HTMLElement | null>(null)
-const { loading, leftModel } = useEditor(editorRef)
+const { loading, leftModel } = useEditor(editorRef as Ref<HTMLElement | null>)
 </script>
 
 <template>
