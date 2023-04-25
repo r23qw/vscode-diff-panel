@@ -2,27 +2,21 @@ import type { Disposable, ExtensionContext, WebviewPanel } from 'vscode'
 import { Uri, ViewColumn, commands, window } from 'vscode'
 import { getUri } from '../utilities/getUri'
 import type { Message } from '../../shared/message'
-import { EXTENSION_ID } from '../../shared/constants'
+import { EXTENSION_ID, WEBVIEW_PANEL_VIEW_TYPE } from '../../shared/constants'
 
 export class DiffPanel {
   disposables: Disposable[] = []
-  panel: WebviewPanel
+  panel: WebviewPanel | null = null
   context: ExtensionContext
 
   constructor(context: ExtensionContext) {
     this.context = context
-    this.panel = window.createWebviewPanel('diff-panel', 'Diff Panel', ViewColumn.One, {
-      enableScripts: true,
-      localResourceRoots: [
-        Uri.joinPath(context.extensionUri, 'out'),
-        Uri.joinPath(context.extensionUri, 'webview-ui/build'),
-      ],
-    })
-    this.panel.webview.html = this.getWebviewContent()
-    this.registerPanelEvents()
   }
 
-  getWebviewContent() {
+  getWebviewContent(state = {}) {
+    if (!this.panel)
+      return ''
+
     const extensionUri = this.context.extensionUri
     const webview = this.panel.webview
     const baseUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets'])
@@ -44,6 +38,9 @@ export class DiffPanel {
         </head>
         <body>
           <div id="app"></div>
+          <script>
+            window.__STATE__ = ${JSON.stringify(state)}
+          </script>
           ${scriptLinks}
         </body>
       </html>
@@ -51,11 +48,14 @@ export class DiffPanel {
   }
 
   registerPanelEvents() {
+    if (!this.panel)
+      return
+
     this.panel.onDidDispose(() => {
       this.disposables.forEach((fn) => {
         fn.dispose()
       })
-      this.panel.dispose()
+      this.panel?.dispose()
     }, this, this.disposables)
 
     this.panel.webview.onDidReceiveMessage(async (message: Message) => {
@@ -63,5 +63,24 @@ export class DiffPanel {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         await commands.executeCommand<any>(`${EXTENSION_ID}.${message.command}`, ...message.payload)
     })
+  }
+}
+
+export class DiffPanelWebview extends DiffPanel {
+  constructor(context: ExtensionContext) {
+    super(context)
+    this.initlize()
+  }
+
+  initlize() {
+    this.panel = window.createWebviewPanel(WEBVIEW_PANEL_VIEW_TYPE, 'Diff Panel', ViewColumn.One, {
+      enableScripts: true,
+      localResourceRoots: [
+        Uri.joinPath(this.context.extensionUri, 'out'),
+        Uri.joinPath(this.context.extensionUri, 'webview-ui/build'),
+      ],
+    })
+    this.panel.webview.html = this.getWebviewContent()
+    this.registerPanelEvents()
   }
 }

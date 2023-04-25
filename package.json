@@ -32,8 +32,13 @@
     "views": {
       "diff-panel": [
         {
-          "id": "diff-panel",
-          "name": "Diff Panel",
+          "id":"diff-panel-folder",
+          "name": "Folder",
+          "type":"tree"
+        },
+        {
+          "id": "diff-panel-feedback",
+          "name": "Feedback",
           "type": "webview"
         }
       ]

@@ -1,7 +1,7 @@
 import type { ExtensionContext } from 'vscode'
 import { commands } from 'vscode'
 import { EXTENSION_ID } from '../../shared/constants'
-import { DiffPanel } from '../panels/diff-panel'
+import { DiffPanelWebview } from '../panels/diff-panel'
 
 export function registerCommands(context: ExtensionContext) {
   const commandList = [
@@ -9,7 +9,7 @@ export function registerCommands(context: ExtensionContext) {
       command: 'newDiffEditor',
       handler: () => {
         // eslint-disable-next-line no-new
-        new DiffPanel(context)
+        new DiffPanelWebview(context)
       },
     },
   ]

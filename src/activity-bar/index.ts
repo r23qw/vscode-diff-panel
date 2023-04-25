@@ -40,7 +40,7 @@ function registerOnDidReceiveMessage(webview: Webview) {
 }
 
 export function registerWebviewViewProvider(context: ExtensionContext) {
-  vscode.window.registerWebviewViewProvider('diff-panel', {
+  vscode.window.registerWebviewViewProvider('diff-panel-feedback', {
     resolveWebviewView(webviewView) {
       webviewView.webview.options = {
         enableScripts: true,
