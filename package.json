@@ -3,13 +3,14 @@
   "displayName": "Diff Panel",
   "version": "1.0.0",
   "description": "A quick way to compare two files",
-  "author": "Aaron00101010",
+  "author": "aaron00101010",
+  "publisher": "aaron00101010",
   "categories": [
     "Other"
   ],
   "main": "./out/src/extension.js",
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.74.0"
   },
   "activationEvents": [],
   "browser": "./out/src/extension.js",
@@ -20,21 +21,13 @@
         "title": "Diff Panel: New Diff Editor"
       }
     ],
-    "menus": {
-      "editor/title": [
-        {
-          "command": "diff-panel.newDiffEditor",
-          "group": "navigation",
-          "when": "resourceScheme == diff-panel"
-        }
-      ]
-    },
+    "menus": {},
     "views": {
       "diff-panel": [
         {
-          "id":"diff-panel-folder",
+          "id": "diff-panel-folder",
           "name": "Folder",
-          "type":"tree"
+          "type": "tree"
         },
         {
           "id": "diff-panel-feedback",
@@ -51,7 +44,13 @@
           "title": "Diff Panel"
         }
       ]
-    }
+    },
+    "viewsWelcome": [
+      {
+        "view": "diff-panel-folder",
+        "contents": ""
+      }
+    ]
   },
   "scripts": {
     "compile": "tsc -p ./",
@@ -65,12 +64,14 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "@vscode/codicons": "^0.0.32"
+    "@vscode/codicons": "^0.0.32",
+    "fs-extra": "^11.1.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",
+    "@types/fs-extra": "^11.0.1",
     "@types/glob": "^7.2.0",
-    "@types/node": "^12.20.55",
+    "@types/node": "^18.16.1",
     "@types/vscode": "^1.77.0",
     "eslint": "^8.39.0",
     "glob": "^7.2.3",

@@ -3,14 +3,15 @@ import { Uri, ViewColumn, commands, window } from 'vscode'
 import { getUri } from '../utilities/getUri'
 import type { Message } from '../../shared/message'
 import { EXTENSION_ID, WEBVIEW_PANEL_VIEW_TYPE } from '../../shared/constants'
+import { getExtensionContext } from '../extension'
 
 export class DiffPanel {
   disposables: Disposable[] = []
   panel: WebviewPanel | null = null
   context: ExtensionContext
 
-  constructor(context: ExtensionContext) {
-    this.context = context
+  constructor() {
+    this.context = getExtensionContext()
   }
 
   getWebviewContent(state = {}) {
@@ -67,8 +68,8 @@ export class DiffPanel {
 }
 
 export class DiffPanelWebview extends DiffPanel {
-  constructor(context: ExtensionContext) {
-    super(context)
+  constructor() {
+    super()
     this.initlize()
   }
 

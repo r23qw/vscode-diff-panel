@@ -1,11 +1,11 @@
-import type { ExtensionContext, WebviewPanel, WebviewPanelSerializer } from 'vscode'
+import type { WebviewPanel, WebviewPanelSerializer } from 'vscode'
 import * as vscode from 'vscode'
 import { WEBVIEW_PANEL_VIEW_TYPE } from '../../shared/constants'
 import { DiffPanel } from '../panels/diff-panel'
 
 export class DiffPanelSerializer extends DiffPanel implements WebviewPanelSerializer {
-  constructor(context: ExtensionContext) {
-    super(context)
+  constructor() {
+    super()
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -16,6 +16,6 @@ export class DiffPanelSerializer extends DiffPanel implements WebviewPanelSerial
   }
 }
 
-export function registerDiffPanelSerilizer(context: ExtensionContext) {
-  vscode.window.registerWebviewPanelSerializer(WEBVIEW_PANEL_VIEW_TYPE, new DiffPanelSerializer(context))
+export function registerDiffPanelSerilizer() {
+  vscode.window.registerWebviewPanelSerializer(WEBVIEW_PANEL_VIEW_TYPE, new DiffPanelSerializer())
 }

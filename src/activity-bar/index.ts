@@ -1,9 +1,10 @@
 import { Uri } from 'vscode'
-import type { ExtensionContext, Webview } from 'vscode'
+import type { Webview } from 'vscode'
 import * as vscode from 'vscode'
 import { getUri } from '../utilities/getUri'
 import type { Message } from '../../shared/message'
 import { EXTENSION_ID } from '../../shared/constants'
+import { getExtensionContext } from '../extension'
 
 function getContent(webview: Webview, extensionUri: Uri) {
   const baseUri = getUri(webview, extensionUri, ['webview-ui', 'build', 'assets'])
@@ -39,7 +40,8 @@ function registerOnDidReceiveMessage(webview: Webview) {
   })
 }
 
-export function registerWebviewViewProvider(context: ExtensionContext) {
+export function registerWebviewViewProvider() {
+  const context = getExtensionContext()
   vscode.window.registerWebviewViewProvider('diff-panel-feedback', {
     resolveWebviewView(webviewView) {
       webviewView.webview.options = {

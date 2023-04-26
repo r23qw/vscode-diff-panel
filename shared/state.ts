@@ -18,18 +18,5 @@ export interface Floder {
 }
 
 export interface GlobalState {
-  tree: Floder[]
-}
-
-export const initGlobalState: GlobalState = {
-  tree: [
-    {
-      name: 'test',
-      type: 'floder',
-      children: [
-        { type: 'text', name: 'text', text: 'test' },
-        { type: 'file', path: '~/.zshrc', name: 'zsh' },
-      ],
-    },
-  ],
+  floder: Floder[]
 }
