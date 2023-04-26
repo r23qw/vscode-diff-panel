@@ -2,7 +2,7 @@ import type { ExtensionContext } from 'vscode'
 import { registerWebviewViewProvider } from './activity-bar'
 import { registerCommands } from './commands'
 import { registerDiffPanelSerilizer } from './panels/diff-panel-serializer'
-import { registerFolderExplorer } from './activity-bar/floder'
+import { registerFolderExplorer } from './activity-bar/explorer'
 import { initializeStorageService } from './utilities/storage'
 
 let extensionContext: ExtensionContext

@@ -4,13 +4,14 @@ import * as fs from 'fs-extra'
 import * as vscode from 'vscode'
 import { getExtensionContext } from '../extension'
 import type { GlobalState } from '../../shared/state'
+import { initGlobalState } from '../../shared/state'
 
 class StorageService {
   context: ExtensionContext = getExtensionContext()
   storageUrl: string = this.context.globalStorageUri.path
   dataFilename = 'data.json'
   dataFilePath = path.join(this.storageUrl, this.dataFilename)
-  data: GlobalState = { floder: [] }
+  data: GlobalState = initGlobalState
   constructor() {
     this.initilize().catch(error => console.error(error))
   }

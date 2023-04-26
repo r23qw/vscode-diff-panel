@@ -41,7 +41,7 @@
         {
           "icon": "$(diff)",
           "id": "diff-panel",
-          "title": "Diff Panel"
+          "title": "Diff Panel: Explorer"
         }
       ]
     },

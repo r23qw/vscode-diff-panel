@@ -9,14 +9,34 @@ export interface FileItem {
   path: string
 }
 
-export type DiffItem = TextItem | FileItem
+export type DiffItem = TextItem
+
+export type FloderChildren = (Floder | DiffItem)[]
 
 export interface Floder {
   type: 'floder'
   name: string
-  children: (Floder | DiffItem)[]
+  children: FloderChildren
 }
 
 export interface GlobalState {
-  floder: Floder[]
+  floder: FloderChildren
+}
+
+export const initGlobalState: GlobalState = {
+  floder: [
+    {
+      name: 'test',
+      type: 'floder',
+      children: [
+        { type: 'text', name: 'text', text: 'test' },
+        // { type: 'file', path: '~/.zshrc', name: 'zsh' },
+      ],
+    },
+    {
+      name: 'test2',
+      type: 'text',
+      text: 'test2',
+    },
+  ],
 }
