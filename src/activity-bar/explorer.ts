@@ -3,6 +3,7 @@ import type { TreeItemCollapsibleState } from 'vscode'
 import { storage } from '../utilities/storage'
 import type { Floder, FloderChildren, TextItem } from '../../shared/state'
 import { EXTENSTION_SCHEME } from '../../shared/constants'
+import { logger } from '../utilities/log'
 
 class FloderTreeItem extends vscode.TreeItem {
   context: Floder
@@ -22,6 +23,20 @@ class TextTreeItem extends vscode.TreeItem {
     this.context = payload
     this.iconPath = ''
     this.resourceUri = vscode.Uri.from({ scheme: 'diff', path: payload.id + payload.name })
+  }
+
+  async openTextDocument() {
+    const path = storage.dataFilePath
+    const filePath = vscode.Uri.file(path).with({ scheme: 'file' })
+    try {
+      await vscode.workspace.openTextDocument(filePath).then((document) => {
+        const text = document.getText()
+        const textEditor = vscode.window.showTextDocument(document, { preview: true })
+      })
+    }
+    catch (e) {
+      logger.info(e)
+    }
   }
 }
 
@@ -63,5 +78,10 @@ class DiffFolderProvider implements vscode.TreeDataProvider<DiffTreeItem> {
 }
 export function registerFolderExplorer() {
   const treeDataProvider = new DiffFolderProvider()
-  const treeView = vscode.window.createTreeView('diff-panel-folder', { treeDataProvider })
+  const treeview = vscode.window.createTreeView('diff-panel-folder', { treeDataProvider })
+  treeview.onDidChangeSelection(async (event) => {
+    const [item] = event.selection
+    if (item instanceof TextTreeItem)
+      await item.openTextDocument()
+  })
 }
