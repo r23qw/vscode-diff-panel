@@ -1,10 +1,11 @@
 {
+  "publisher": "aaron00101010",
   "name": "diff-panel",
   "displayName": "Diff Panel",
   "version": "1.0.0",
   "description": "A quick way to compare two files",
   "author": "aaron00101010",
-  "publisher": "aaron00101010",
+  "repository": "git@github.com:Aaron00101010/vscode-diff-panel.git",
   "categories": [
     "Other"
   ],
@@ -60,7 +61,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "pretest": "pnpm run compile && pnpm run lint",
-    "vscode:prepublish": "pnpm run compile && pnpm run build:webview",
+    "vscode:prepublish": "npm i --force&& npm run compile && npm run build:webview && pnpm i",
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
@@ -72,7 +73,7 @@
     "@types/fs-extra": "^11.0.1",
     "@types/glob": "^7.2.0",
     "@types/node": "^18.16.1",
-    "@types/vscode": "^1.77.0",
+    "@types/vscode": "^1.74.0",
     "eslint": "^8.39.0",
     "glob": "^7.2.3",
     "lint-staged": "^13.2.1",

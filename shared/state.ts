@@ -1,4 +1,7 @@
+const uuid = () => Math.random().toString(36).slice(2)
+
 export interface TextItem {
+  id: string
   type: 'text'
   name: string
   text: string
@@ -14,6 +17,7 @@ export type DiffItem = TextItem
 export type FloderChildren = (Floder | DiffItem)[]
 
 export interface Floder {
+  id: string
   type: 'floder'
   name: string
   children: FloderChildren
@@ -26,15 +30,17 @@ export interface GlobalState {
 export const initGlobalState: GlobalState = {
   floder: [
     {
+      id: uuid(),
       name: 'test',
       type: 'floder',
       children: [
-        { type: 'text', name: 'text', text: 'test' },
+        { id: uuid(), type: 'text', name: 'text.js', text: 'test' },
         // { type: 'file', path: '~/.zshrc', name: 'zsh' },
       ],
     },
     {
-      name: 'test2',
+      id: uuid(),
+      name: 'test2.json',
       type: 'text',
       text: 'test2',
     },

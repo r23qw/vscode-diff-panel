@@ -18,10 +18,15 @@ class StorageService {
 
   async initilize() {
     const hasDataFile = await fs.pathExists(this.dataFilePath)
-    if (hasDataFile)
-      await fs.readJson(this.dataFilePath).then((data: GlobalState) => { this.data = data })
-    else
+    if (hasDataFile) {
+      await fs.readJson(this.dataFilePath).then((data: GlobalState) => {
+        this.data = data
+      })
+    }
+    else {
+      await fs.ensureFile(this.dataFilePath)
       await fs.writeJSON(this.dataFilePath, this.data)
+    }
   }
 
   save() {
