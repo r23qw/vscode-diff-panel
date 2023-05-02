@@ -25,8 +25,8 @@ dependencies:
 
 devDependencies:
   '@types/node':
-    specifier: ^16.11.27
-    version: 16.11.27
+    specifier: ^18.16.3
+    version: 18.16.3
   '@types/vscode-webview':
     specifier: ^1.57.0
     version: 1.57.0
@@ -38,7 +38,7 @@ devDependencies:
     version: 4.0.0(vite@4.3.1)(vue@3.2.33)
   '@vue/tsconfig':
     specifier: ^0.1.3
-    version: 0.1.3(@types/node@16.11.27)
+    version: 0.1.3(@types/node@18.16.3)
   concurrently:
     specifier: ^8.0.1
     version: 8.0.1
@@ -56,7 +56,7 @@ devDependencies:
     version: 0.24.1(vue@3.2.33)
   vite:
     specifier: ^4.3.1
-    version: 4.3.1(@types/node@16.11.27)
+    version: 4.3.1(@types/node@18.16.3)
   vue-tsc:
     specifier: ^0.34.7
     version: 0.34.7(typescript@4.6.3)
@@ -461,8 +461,8 @@ packages:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: true
 
-  /@types/node@16.11.27:
-    resolution: {integrity: sha512-C1pD3kgLoZ56Uuy5lhfOxie4aZlA3UMGLX9rXteq4WitEZH6Rl80mwactt9QG0w0gLFlN/kLBTFnGXtDVWvWQw==}
+  /@types/node@18.16.3:
+    resolution: {integrity: sha512-OPs5WnnT1xkCBiuQrZA4+YAV4HEJejmHneyraIaxsbev5yCEr6KMwINNFP9wQeFIw8FWcoTqF3vQsa5CDaI+8Q==}
     dev: true
 
   /@types/vscode-webview@1.57.0:
@@ -667,7 +667,7 @@ packages:
       chokidar: 3.5.3
       fast-glob: 3.2.12
       magic-string: 0.30.0
-      vite: 4.3.1(@types/node@16.11.27)
+      vite: 4.3.1(@types/node@18.16.3)
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -679,7 +679,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.3.1(@types/node@16.11.27)
+      vite: 4.3.1(@types/node@18.16.3)
       vue: 3.2.33
     dev: true
 
@@ -859,7 +859,7 @@ packages:
     resolution: {integrity: sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==}
     dev: true
 
-  /@vue/tsconfig@0.1.3(@types/node@16.11.27):
+  /@vue/tsconfig@0.1.3(@types/node@18.16.3):
     resolution: {integrity: sha512-kQVsh8yyWPvHpb8gIc9l/HIDiiVUy1amynLNpCy8p+FoCiZXCo6fQos5/097MmnNZc9AtseDsCrfkhqCrJ8Olg==}
     peerDependencies:
       '@types/node': '*'
@@ -867,7 +867,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 16.11.27
+      '@types/node': 18.16.3
     dev: true
 
   /@vueuse/core@10.1.0(vue@3.2.33):
@@ -1852,7 +1852,7 @@ packages:
       webpack-virtual-modules: 0.5.0
     dev: true
 
-  /vite@4.3.1(@types/node@16.11.27):
+  /vite@4.3.1(@types/node@18.16.3):
     resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1877,7 +1877,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 16.11.27
+      '@types/node': 18.16.3
       esbuild: 0.17.18
       postcss: 8.4.23
       rollup: 3.21.0

@@ -4,6 +4,8 @@
     "vite.config.*"
   ],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "types": ["node"],
+    "ignoreDeprecations": "5.0"
   }
 }

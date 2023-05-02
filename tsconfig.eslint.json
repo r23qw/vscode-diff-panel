@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "types": ["node"]
   },
   "include": [
+    "webview-ui/vite.config.ts",
     "webview-ui/**/*",
     "webview-ui/**/*.vue",
     "src/**/*",

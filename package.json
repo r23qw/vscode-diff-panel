@@ -20,14 +20,47 @@
       {
         "command": "diff-panel.newDiffEditor",
         "title": "Diff Panel: New Diff Editor"
+      },
+      {
+        "command": "diff-panel.newFile",
+        "title": "Diff Panel: New File",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "diff-panel.newFolder",
+        "title": "Diff Panel: New Folder",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "diff-panel.refreshExplorer",
+        "title": "Diff Panel: Refresh Explorer",
+        "icon": "$(refresh)"
       }
     ],
-    "menus": {},
+    "menus": {
+      "view/title": [
+        {
+          "command": "diff-panel.newFile",
+          "when": "view == diff-panel-folder",
+          "group": "navigation"
+        },
+        {
+          "command": "diff-panel.newFolder",
+          "when": "view == diff-panel-folder",
+          "group": "navigation"
+        },
+        {
+          "command": "diff-panel.refreshExplorer",
+          "when": "view == diff-panel-folder",
+          "group": "navigation"
+        }
+      ]
+    },
     "views": {
       "diff-panel": [
         {
           "id": "diff-panel-folder",
-          "name": "Folder",
+          "name": "Explorer",
           "type": "tree"
         },
         {

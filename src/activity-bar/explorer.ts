@@ -1,46 +1,42 @@
 import * as vscode from 'vscode'
-import type { TreeItemCollapsibleState } from 'vscode'
-import { storage } from '../utilities/storage'
-import type { Floder, FloderChildren, TextItem } from '../../shared/state'
+import { TreeItemCollapsibleState } from 'vscode'
+import { fileStorage } from '../utilities/storage'
 import { EXTENSTION_SCHEME } from '../../shared/constants'
-import { logger } from '../utilities/log'
+import type { DiffFile, DiffFloder } from '../../shared/state'
+import { DiffExplorerType } from '../../shared/state'
 
 class FloderTreeItem extends vscode.TreeItem {
-  context: Floder
+  context: DiffFloder
   resourceUri: vscode.Uri
-  constructor(label: string, collapsibleState: TreeItemCollapsibleState, payload: Floder) {
+  constructor(label: string, collapsibleState: TreeItemCollapsibleState, payload: DiffFloder) {
     super(label, collapsibleState)
     this.context = payload
     this.iconPath = ''
-    this.resourceUri = vscode.Uri.from({ scheme: EXTENSTION_SCHEME, path: payload.id + payload.name })
+    this.resourceUri = vscode.Uri.from({ scheme: EXTENSTION_SCHEME, path: payload.path })
   }
 }
-class TextTreeItem extends vscode.TreeItem {
-  context: TextItem
+class FileTreeItem extends vscode.TreeItem {
+  context: DiffFile
   resourceUri: vscode.Uri
-  constructor(label: string, collapsibleState: TreeItemCollapsibleState, payload: TextItem) {
+  constructor(label: string, collapsibleState: TreeItemCollapsibleState, payload: DiffFile) {
     super(label, collapsibleState)
     this.context = payload
     this.iconPath = ''
-    this.resourceUri = vscode.Uri.from({ scheme: 'diff', path: payload.id + payload.name })
+    this.resourceUri = vscode.Uri.from({ scheme: 'diff', path: payload.path })
   }
 
   async openTextDocument() {
-    const path = storage.dataFilePath
-    const filePath = vscode.Uri.file(path).with({ scheme: 'file' })
+    const filePath = vscode.Uri.file(this.context.path).with({ scheme: 'file' })
     try {
-      await vscode.workspace.openTextDocument(filePath).then((document) => {
-        const text = document.getText()
-        const textEditor = vscode.window.showTextDocument(document, { preview: true })
+      await vscode.workspace.openTextDocument(filePath).then(async (document) => {
+        await vscode.window.showTextDocument(document, { preview: true })
       })
     }
-    catch (e) {
-      logger.info(e)
-    }
+    catch {}
   }
 }
 
-type DiffTreeItem = FloderTreeItem | TextTreeItem
+type DiffTreeItem = FloderTreeItem | FileTreeItem
 
 class DiffFolderProvider implements vscode.TreeDataProvider<DiffTreeItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<DiffTreeItem | undefined | null | void> = new vscode.EventEmitter<DiffTreeItem | undefined | null | void>()
@@ -50,38 +46,33 @@ class DiffFolderProvider implements vscode.TreeDataProvider<DiffTreeItem> {
     this._onDidChangeTreeData.fire()
   }
 
-  get rootData() {
-    return storage.data.floder
-  }
-
   getTreeItem(element: DiffTreeItem): vscode.TreeItem {
     return element
   }
 
-  getChildren(element?: FloderTreeItem): DiffTreeItem[] {
-    if (!element)
-      return this.generateChildren(this.rootData)
+  async getChildren(element?: FloderTreeItem): Promise<DiffTreeItem[]> {
+    const isRoot = !element
+    const children: (DiffFile | DiffFloder)[] = await fileStorage.getChildren(isRoot ? undefined : element.context.path)
 
-    else
-      return this.generateChildren(element.context.children)
-  }
+    children.sort((a, b) => b.type - a.type)
 
-  generateChildren(data: FloderChildren) {
-    return data.map((item) => {
-      if (item.type === 'floder')
-        return new FloderTreeItem(item.name, vscode.TreeItemCollapsibleState.Collapsed, item)
-
+    return children.map((i) => {
+      if (i.type === DiffExplorerType.floder)
+        return new FloderTreeItem(i.name, TreeItemCollapsibleState.Collapsed, i)
       else
-        return new TextTreeItem(item.name, vscode.TreeItemCollapsibleState.None, item)
+        return new FileTreeItem(i.name, TreeItemCollapsibleState.None, i)
     })
   }
 }
+
+// eslint-disable-next-line import/no-mutable-exports
+export let treeDataProvider: DiffFolderProvider
 export function registerFolderExplorer() {
-  const treeDataProvider = new DiffFolderProvider()
+  treeDataProvider = new DiffFolderProvider()
   const treeview = vscode.window.createTreeView('diff-panel-folder', { treeDataProvider })
   treeview.onDidChangeSelection(async (event) => {
     const [item] = event.selection
-    if (item instanceof TextTreeItem)
+    if (item instanceof FileTreeItem)
       await item.openTextDocument()
   })
 }

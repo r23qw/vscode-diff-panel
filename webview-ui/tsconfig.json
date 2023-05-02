@@ -5,6 +5,7 @@
   "compilerOptions": {
     "module": "esnext",
     "baseUrl": ".",
+    "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
     },
