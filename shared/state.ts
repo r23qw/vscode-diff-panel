@@ -1,10 +1,10 @@
 export const enum DiffExplorerType {
-  file,
-  floder,
+  file = 'file',
+  folder = 'folder',
 }
 
 export interface DiffFloder {
-  type: DiffExplorerType.floder
+  type: DiffExplorerType.folder
   path: string
   name: string
 }

@@ -2,8 +2,8 @@ import { commands } from 'vscode'
 import { EXTENSION_ID } from '../../shared/constants'
 import { DiffPanelWebview } from '../panels/diff-panel'
 import { fileStorage } from '../utilities/storage'
-import { logger } from '../utilities/log'
 import { treeDataProvider } from '../activity-bar/explorer'
+import type { FileTreeItem, FloderTreeItem } from '../activity-bar/explorer'
 
 export function registerCommands() {
   const commandList = [
@@ -16,16 +16,31 @@ export function registerCommands() {
     },
     {
       command: 'newFile',
-      handler: async () => {
-        await fileStorage.createFile().catch((e: Error) => {
-          logger.error(e)
-        })
+      handler: async (node?: FloderTreeItem) => {
+        await fileStorage.createFile(node)
         treeDataProvider.refresh()
       },
     },
     {
       command: 'newFolder',
-      handler: () => {},
+      handler: async (node: FloderTreeItem) => {
+        await fileStorage.createFolder(node)
+        treeDataProvider.refresh()
+      },
+    },
+    {
+      command: 'rename',
+      handler: async (node: FileTreeItem | FloderTreeItem) => {
+        await fileStorage.rename(node)
+        treeDataProvider.refresh()
+      },
+    },
+    {
+      command: 'delete',
+      handler: async (node: FileTreeItem | FloderTreeItem) => {
+        await fileStorage.remove(node)
+        treeDataProvider.refresh()
+      },
     },
     {
       command: 'refreshExplorer',
