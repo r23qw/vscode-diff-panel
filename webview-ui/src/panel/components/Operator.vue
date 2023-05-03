@@ -3,9 +3,7 @@
 </script>
 
 <template>
-  <div>
-    operator
-  </div>
+  <div />
 </template>
 
 <style scoped>

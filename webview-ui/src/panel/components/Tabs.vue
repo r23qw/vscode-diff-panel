@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { useTabs } from '../store/tabs'
 
 const tabsStore = useTabs()
@@ -9,6 +9,24 @@ const panel = ref(null)
 function handleChange(e: CustomEvent) {
   tabsStore.setCurrentTabId(e.detail.id)
 }
+function scrollIntoView() {
+  const activeTab = document.getElementById(tabsStore.currentTabId)
+
+  if (activeTab) {
+    setTimeout(() => {
+      activeTab.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }
+}
+function handleAdd() {
+  tabsStore.addTab()
+  nextTick(() => {
+    scrollIntoView()
+  })
+}
+onMounted(() => {
+  scrollIntoView()
+})
 </script>
 
 <template>
@@ -26,7 +44,7 @@ function handleChange(e: CustomEvent) {
       </vscode-panel-tab>
       <vscode-panel-view v-for="tab in tabsStore.tabs" :id="tab.id" :key="tab.id" class="hidden" />
     </vscode-panels>
-    <vscode-button appearance="primary" class="shrink-0 ml-4" @click="tabsStore.addTab">
+    <vscode-button appearance="primary" class="shrink-0 mx-[4px] self-center" @click="handleAdd">
       New Tab
     </vscode-button>
   </div>

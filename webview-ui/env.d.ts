@@ -4,3 +4,7 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+interface Window {
+  __STATE__: Record<string,any>
+}

@@ -9,15 +9,13 @@ interface Tab {
   right: string
 }
 
+const restoreState = (window.__STATE__.tabs) as { tabs: Tab[]; currentTabId: string }
+
 export const useTabs = defineStore('tabs', () => {
-  const initId = getId()
-  const initState: Tab[] = [{ id: initId, title: 'Untitled', left: '', right: '' }]
+  const initState: Tab[] = (restoreState.tabs) || [{ id: getId(), title: 'Untitled', left: '', right: '' }]
 
   const tabs = ref(initState)
 
-  const addTab = () => {
-    tabs.value.push({ id: getId(), title: 'Untitled', left: '', right: '' })
-  }
   const deleteTab = (id: string) => {
     if (tabs.value.length === 1)
       return
@@ -26,10 +24,16 @@ export const useTabs = defineStore('tabs', () => {
     if (index > -1)
       tabs.value.splice(index, 1)
   }
-  const currentTabId = ref(initId)
+  const currentTabId = ref(restoreState.currentTabId || initState[0].id)
 
   const setCurrentTabId = (id: string) => {
     currentTabId.value = id
+  }
+
+  const addTab = () => {
+    const id = getId()
+    tabs.value.push({ id, title: 'Untitled', left: '', right: '' })
+    setCurrentTabId(id)
   }
 
   return { tabs, addTab, deleteTab, currentTabId, setCurrentTabId }
