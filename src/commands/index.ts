@@ -18,7 +18,7 @@ export function registerCommands() {
       command: 'newFile',
       handler: async (node?: FloderTreeItem) => {
         await fileStorage.createFile(node)
-        treeDataProvider.refresh()
+        // treeDataProvider.refresh()
       },
     },
     {

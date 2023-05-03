@@ -68,9 +68,13 @@ export class DiffPanel {
 }
 
 export class DiffPanelWebview extends DiffPanel {
+  static _panel: WebviewPanel | null = null
   constructor() {
     super()
-    this.initlize()
+    if (DiffPanelWebview._panel)
+      DiffPanelWebview._panel.reveal(ViewColumn.One)
+    else
+      this.initlize()
   }
 
   initlize() {
@@ -80,8 +84,10 @@ export class DiffPanelWebview extends DiffPanel {
         Uri.joinPath(this.context.extensionUri, 'out'),
         Uri.joinPath(this.context.extensionUri, 'webview-ui/build'),
       ],
+      retainContextWhenHidden: true,
     })
     this.panel.webview.html = this.getWebviewContent()
     this.registerPanelEvents()
+    DiffPanelWebview._panel = this.panel
   }
 }

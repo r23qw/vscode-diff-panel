@@ -85,11 +85,11 @@
           "when": "view == diff-panel-folder && viewItem == folder"
         },
         {
-          "command": "diff-panel.rename",
+          "command": "diff-panel.delete",
           "when": "view == diff-panel-folder"
         },
         {
-          "command": "diff-panel.delete",
+          "command": "diff-panel.rename",
           "when": "view == diff-panel-folder"
         },
         {
@@ -102,16 +102,6 @@
           "command": "diff-panel.newFolder",
           "when": "view == diff-panel-folder && viewItem == folder",
           "group": "inline@1"
-        },
-        {
-          "command": "diff-panel.rename",
-          "when": "view == diff-panel-folder",
-          "group": "inline@2"
-        },
-        {
-          "command": "diff-panel.delete",
-          "when": "view == diff-panel-folder",
-          "group": "inline@3"
         }
 
       ]
@@ -142,7 +132,7 @@
     "viewsWelcome": [
       {
         "view": "diff-panel-folder",
-        "contents": ""
+        "contents": "No file or folder found.\n[New File](command:diff-panel.newFile)"
       }
     ]
   },

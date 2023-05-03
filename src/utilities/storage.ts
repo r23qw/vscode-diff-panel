@@ -63,6 +63,8 @@ class FileStorageService {
 
     if (node)
       node.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
+
+    logger.info(node)
   }
 
   async createFolder(node?: FloderTreeItem | FileTreeItem) {
@@ -116,15 +118,16 @@ class FileStorageService {
       showErrorMessage('please select a file or folder')
       return
     }
-
+    const targetNode = node || selected
     const newName = await vscode.window.showInputBox({
       placeHolder: 'please input new name',
       title: 'rename',
+      value: targetNode.context.name || '',
     })
     if (!newName)
       return
 
-    const itemPath = node ? node.context.path : selected.context.path
+    const itemPath = targetNode.context.path
     const newPath = path.join(path.dirname(itemPath), newName)
     const isNewPathExisted = await fs.exists(newPath)
 
