@@ -10,19 +10,18 @@ function handleChange(e: CustomEvent) {
   tabsStore.setCurrentTabId(e.detail.id)
 }
 function scrollIntoView() {
-  const activeTab = document.getElementById(tabsStore.currentTabId)
-
-  if (activeTab) {
-    setTimeout(() => {
-      activeTab.scrollIntoView({ behavior: 'smooth' })
-    }, 100)
-  }
+  nextTick(() => {
+    const activeTab = document.getElementById(tabsStore.currentTabId)
+    if (activeTab) {
+      setTimeout(() => {
+        activeTab.scrollIntoView({ behavior: 'smooth' })
+      })
+    }
+  })
 }
 function handleAdd() {
   tabsStore.addTab()
-  nextTick(() => {
-    scrollIntoView()
-  })
+  scrollIntoView()
 }
 onMounted(() => {
   scrollIntoView()
