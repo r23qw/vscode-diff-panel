@@ -1,6 +1,6 @@
 import { commands } from 'vscode'
 import { EXTENSION_ID } from '../../shared/constants'
-import { DiffPanelWebview } from '../panels/diff-panel'
+import { revealDiffPanel } from '../panels/diff-panel'
 import { fileStorage } from '../utilities/storage'
 import { treeDataProvider } from '../activity-bar/explorer'
 import type { FileTreeItem, FloderTreeItem } from '../activity-bar/explorer'
@@ -10,15 +10,16 @@ export function registerCommands() {
     {
       command: 'newDiffEditor',
       handler: () => {
-        // eslint-disable-next-line no-new
-        new DiffPanelWebview()
+        revealDiffPanel()
       },
     },
     {
       command: 'newFile',
       handler: async (node?: FloderTreeItem) => {
         await fileStorage.createFile(node)
-        // treeDataProvider.refresh()
+        setTimeout(() => {
+          treeDataProvider.refresh()
+        })
       },
     },
     {
@@ -46,6 +47,18 @@ export function registerCommands() {
       command: 'refreshExplorer',
       handler: () => {
         treeDataProvider.refresh()
+      },
+    },
+    {
+      command: 'asLeftDiff',
+      handler: () => {
+        revealDiffPanel()
+      },
+    },
+    {
+      command: 'asRightDiff',
+      handler: () => {
+        revealDiffPanel()
       },
     },
   ]

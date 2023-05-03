@@ -69,6 +69,7 @@ export class DiffPanel {
 
 export class DiffPanelWebview extends DiffPanel {
   static _panel: WebviewPanel | null = null
+  disposables: Disposable[] = []
   constructor() {
     super()
     if (DiffPanelWebview._panel)
@@ -87,7 +88,20 @@ export class DiffPanelWebview extends DiffPanel {
       retainContextWhenHidden: true,
     })
     this.panel.webview.html = this.getWebviewContent()
+    this.disposables.push({
+      dispose() {
+        DiffPanelWebview._panel = null
+      },
+    })
     this.registerPanelEvents()
     DiffPanelWebview._panel = this.panel
   }
+}
+
+export function revealDiffPanel() {
+  if (DiffPanelWebview._panel)
+    DiffPanelWebview._panel.reveal(ViewColumn.One)
+  else
+    // eslint-disable-next-line no-new
+    new DiffPanelWebview()
 }

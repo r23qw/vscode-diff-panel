@@ -19,7 +19,8 @@
     "commands": [
       {
         "command": "diff-panel.newDiffEditor",
-        "title": "Diff Panel: New Diff Editor"
+        "title": "Diff Panel: New Diff Editor",
+        "icon": "$(add)"
       },
       {
         "command": "diff-panel.newFile",
@@ -45,34 +46,49 @@
         "command": "diff-panel.refreshExplorer",
         "title": "Diff Panel: Refresh Explorer",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "diff-panel.asLeftDiff",
+        "title": "Diff Panel: Left Diff Content",
+        "icon": "$(arrow-left)"
+      },
+      {
+        "command": "diff-panel.asRightDiff",
+        "title": "Diff Panel: Left Diff Content",
+        "icon": "$(arrow-right)"
       }
     ],
     "menus": {
       "view/title": [
         {
-          "command": "diff-panel.newFile",
+          "command": "diff-panel.newDiffEditor",
           "when": "view == diff-panel-folder",
           "group": "navigation@0"
         },
         {
-          "command": "diff-panel.newFolder",
+          "command": "diff-panel.newFile",
           "when": "view == diff-panel-folder",
           "group": "navigation@1"
         },
         {
-          "command": "diff-panel.rename",
+          "command": "diff-panel.newFolder",
           "when": "view == diff-panel-folder",
           "group": "navigation@2"
         },
         {
-          "command": "diff-panel.refreshExplorer",
+          "command": "diff-panel.rename",
           "when": "view == diff-panel-folder",
-          "group": "overflow@0"
+          "group": "navigation@3"
         },
         {
           "command": "diff-panel.delete",
           "when": "view == diff-panel-folder",
           "group": "navigation@4"
+        },
+        {
+          "command": "diff-panel.refreshExplorer",
+          "when": "view == diff-panel-folder",
+          "group": "overflow@0"
         }
       ],
       "view/item/context": [
@@ -101,6 +117,16 @@
         {
           "command": "diff-panel.newFolder",
           "when": "view == diff-panel-folder && viewItem == folder",
+          "group": "inline@1"
+        },
+        {
+          "command": "diff-panel.asLeftDiff",
+          "when": "view == diff-panel-folder && viewItem == file",
+          "group": "inline@0"
+        },
+        {
+          "command": "diff-panel.asRightDiff",
+          "when": "view == diff-panel-folder && viewItem == file",
           "group": "inline@1"
         }
 

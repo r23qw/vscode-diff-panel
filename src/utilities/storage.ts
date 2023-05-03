@@ -63,8 +63,6 @@ class FileStorageService {
 
     if (node)
       node.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
-
-    logger.info(node)
   }
 
   async createFolder(node?: FloderTreeItem | FileTreeItem) {
