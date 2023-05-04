@@ -5,7 +5,7 @@ import { EXTENSTION_SCHEME } from '../../shared/constants'
 import type { DiffFile, DiffFloder } from '../../shared/state'
 import { DiffExplorerType } from '../../shared/state'
 
-export class FloderTreeItem extends vscode.TreeItem {
+export class FolderTreeItem extends vscode.TreeItem {
   contextValue = DiffExplorerType.folder
   context: DiffFloder
   resourceUri: vscode.Uri
@@ -38,9 +38,12 @@ export class FileTreeItem extends vscode.TreeItem {
   }
 }
 
-type DiffTreeItem = FloderTreeItem | FileTreeItem
+export type DiffTreeItem = FolderTreeItem | FileTreeItem
 
 class DiffFolderProvider implements vscode.TreeDataProvider<DiffTreeItem> {
+  dropMimeTypes = ['application/vnd.code.tree.diffTreeItem']
+  dragMimeTypes = ['text/uri-list']
+
   private _onDidChangeTreeData: vscode.EventEmitter<DiffTreeItem | undefined | null | void> = new vscode.EventEmitter<DiffTreeItem | undefined | null | void>()
   readonly onDidChangeTreeData: vscode.Event<DiffTreeItem | undefined | null | void> = this._onDidChangeTreeData.event
 
@@ -52,7 +55,7 @@ class DiffFolderProvider implements vscode.TreeDataProvider<DiffTreeItem> {
     return element
   }
 
-  async getChildren(element?: FloderTreeItem): Promise<DiffTreeItem[]> {
+  async getChildren(element?: FolderTreeItem): Promise<DiffTreeItem[]> {
     const isRoot = !element
     const children: (DiffFile | DiffFloder)[] = await fileStorage.getChildren(isRoot ? undefined : element.context.path)
 
@@ -67,10 +70,27 @@ class DiffFolderProvider implements vscode.TreeDataProvider<DiffTreeItem> {
 
     return children.map((i) => {
       if (i.type === DiffExplorerType.folder)
-        return new FloderTreeItem(i.name, TreeItemCollapsibleState.Collapsed, i)
+        return new FolderTreeItem(i.name, TreeItemCollapsibleState.Collapsed, i)
       else
         return new FileTreeItem(i.name, TreeItemCollapsibleState.None, i)
     })
+  }
+
+  async handleDrop(target: FolderTreeItem | undefined, sources: vscode.DataTransfer): Promise<void> {
+    const transferItem = sources.get('application/vnd.code.tree.diffTreeItem')
+    if (!transferItem)
+      return
+    if (target && target.context.type !== DiffExplorerType.folder)
+      return
+
+    await fileStorage.move(transferItem.value as DiffTreeItem[], target || undefined)
+
+    this.refresh()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async handleDrag(source: DiffTreeItem[], treeDataTransfer: vscode.DataTransfer): Promise<void> {
+    treeDataTransfer.set('application/vnd.code.tree.diffTreeItem', new vscode.DataTransferItem(source))
   }
 }
 
@@ -80,7 +100,7 @@ export let treeDataProvider: DiffFolderProvider
 export let treeview: vscode.TreeView<DiffTreeItem>
 export function registerFolderExplorer() {
   treeDataProvider = new DiffFolderProvider()
-  treeview = vscode.window.createTreeView('diff-panel-folder', { treeDataProvider })
+  treeview = vscode.window.createTreeView('diff-panel-folder', { treeDataProvider, dragAndDropController: treeDataProvider, canSelectMany: true })
   treeview.onDidChangeSelection(async (event) => {
     const [item] = event.selection
     if (item instanceof FileTreeItem)

@@ -3,7 +3,7 @@ import { EXTENSION_ID } from '../../shared/constants'
 import { revealDiffPanel } from '../panels/diff-panel'
 import { fileStorage } from '../utilities/storage'
 import { treeDataProvider } from '../activity-bar/explorer'
-import type { FileTreeItem, FloderTreeItem } from '../activity-bar/explorer'
+import type { FileTreeItem, FolderTreeItem } from '../activity-bar/explorer'
 
 export function registerCommands() {
   const commandList = [
@@ -15,7 +15,7 @@ export function registerCommands() {
     },
     {
       command: 'newFile',
-      handler: async (node?: FloderTreeItem) => {
+      handler: async (node?: FolderTreeItem) => {
         await fileStorage.createFile(node)
         setTimeout(() => {
           treeDataProvider.refresh()
@@ -24,21 +24,21 @@ export function registerCommands() {
     },
     {
       command: 'newFolder',
-      handler: async (node: FloderTreeItem) => {
+      handler: async (node: FolderTreeItem) => {
         await fileStorage.createFolder(node)
         treeDataProvider.refresh()
       },
     },
     {
       command: 'rename',
-      handler: async (node: FileTreeItem | FloderTreeItem) => {
+      handler: async (node: FileTreeItem | FolderTreeItem) => {
         await fileStorage.rename(node)
         treeDataProvider.refresh()
       },
     },
     {
       command: 'delete',
-      handler: async (node: FileTreeItem | FloderTreeItem) => {
+      handler: async (node: FileTreeItem | FolderTreeItem) => {
         await fileStorage.remove(node)
         treeDataProvider.refresh()
       },

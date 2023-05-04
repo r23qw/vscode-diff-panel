@@ -6,7 +6,7 @@ import { getExtensionContext } from '../extension'
 import type { DiffExplorerItem } from '../../shared/state'
 import { DiffExplorerType } from '../../shared/state'
 import { treeview } from '../activity-bar/explorer'
-import type { FileTreeItem, FloderTreeItem } from '../activity-bar/explorer'
+import type { DiffTreeItem, FolderTreeItem } from '../activity-bar/explorer'
 import { logger } from './log'
 import { showErrorMessage } from './message'
 
@@ -33,7 +33,7 @@ class FileStorageService {
       await fs.ensureDir(this.dataDir)
   }
 
-  async createFile(node?: FloderTreeItem | FileTreeItem) {
+  async createFile(node?: DiffTreeItem) {
     const filename = await vscode.window.showInputBox({
       placeHolder: 'please input filename',
       title: 'filename',
@@ -65,7 +65,7 @@ class FileStorageService {
       node.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
   }
 
-  async createFolder(node?: FloderTreeItem | FileTreeItem) {
+  async createFolder(node?: DiffTreeItem) {
     const dirname = await vscode.window.showInputBox({
       placeHolder: 'please input folder name',
       title: 'folder name',
@@ -97,7 +97,7 @@ class FileStorageService {
       node.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
   }
 
-  async remove(node?: FloderTreeItem | FileTreeItem) {
+  async remove(node?: DiffTreeItem) {
     const [selected] = treeview.selection
     if (!selected && !node) {
       showErrorMessage('please select a file or folder')
@@ -110,7 +110,7 @@ class FileStorageService {
     })
   }
 
-  async rename(node?: FloderTreeItem | FileTreeItem) {
+  async rename(node?: DiffTreeItem) {
     const [selected] = treeview.selection
     if (!selected && !node) {
       showErrorMessage('please select a file or folder')
@@ -138,6 +138,19 @@ class FileStorageService {
       logger.error(e)
       showErrorMessage(`rename failed: ${e.message}`)
     })
+  }
+
+  async move(from: DiffTreeItem | DiffTreeItem[], to?: FolderTreeItem) {
+    from = Array.isArray(from) ? from : [from]
+
+    await Promise.all(from.map(async (item) => {
+      const fromPath = item.context.path
+      const toPath = path.join(to ? to.context.path : this.dataDir, item.context.name)
+      await fs.move(fromPath, toPath).catch((e: Error) => {
+        logger.error(e)
+        showErrorMessage(`move failed: ${e.message}`)
+      })
+    }))
   }
 
   async getChildren(fromPath: string = this.dataDir): Promise<DiffExplorerItem[]> {
