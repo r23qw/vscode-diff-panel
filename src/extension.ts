@@ -4,6 +4,7 @@ import { registerCommands } from './commands'
 import { registerDiffPanelSerilizer } from './panels/diff-panel-serializer'
 import { registerFolderExplorer } from './activity-bar/explorer'
 import { initializeStorageService } from './utilities/storage'
+import { registerStatusBarItem } from './statusbar'
 
 let extensionContext: ExtensionContext
 export function getExtensionContext() {
@@ -20,4 +21,5 @@ export function activate(context: ExtensionContext) {
   registerWebviewViewProvider()
   registerDiffPanelSerilizer()
   registerFolderExplorer()
+  registerStatusBarItem()
 }
