@@ -9,10 +9,8 @@ interface Tab {
   right: string
 }
 
-const restoreState = (window.__STATE__.tabs) as { tabs: Tab[]; currentTabId: string }
-
 export const useTabs = defineStore('tabs', () => {
-  const initState: Tab[] = (restoreState?.tabs) || [{ id: getId(), title: 'Untitled', left: '', right: '' }]
+  const initState: Tab[] = [{ id: getId(), title: 'Untitled', left: '', right: '' }]
 
   const tabs = ref(initState)
 
@@ -24,7 +22,7 @@ export const useTabs = defineStore('tabs', () => {
     if (index > -1)
       tabs.value.splice(index, 1)
   }
-  const currentTabId = ref(restoreState?.currentTabId || initState[0].id)
+  const currentTabId = ref(initState[0].id)
 
   const setCurrentTabId = (id: string) => {
     currentTabId.value = id

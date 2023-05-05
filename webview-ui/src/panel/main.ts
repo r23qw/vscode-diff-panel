@@ -13,6 +13,8 @@ const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia)
 
+pinia.state.value = window.__STATE__
+
 watch(
   pinia.state,
   (state) => {

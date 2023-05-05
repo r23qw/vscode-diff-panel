@@ -98,16 +98,19 @@ class FileStorageService {
   }
 
   async remove(node?: DiffTreeItem) {
-    const [selected] = treeview.selection
-    if (!selected && !node) {
+    const target: readonly DiffTreeItem[] = node ? [node] : treeview.selection
+    if (target.length <= 0) {
       showErrorMessage('please select a file or folder')
       return
     }
-    const itemPath = node ? node.context.path : selected.context.path
-    await fs.remove(itemPath).catch((e: Error) => {
-      logger.error(e)
-      showErrorMessage(`delete failed: ${e.message}`)
-    })
+
+    await Promise.all(target.map(async (item) => {
+      const itemPath = item.context.path
+      await fs.remove(itemPath).catch((e: Error) => {
+        logger.error(e)
+        showErrorMessage(`delete failed: ${e.message}`)
+      })
+    }))
   }
 
   async rename(node?: DiffTreeItem) {
