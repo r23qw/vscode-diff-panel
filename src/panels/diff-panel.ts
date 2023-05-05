@@ -1,5 +1,5 @@
 import type { Disposable, ExtensionContext, WebviewPanel } from 'vscode'
-import { Uri, ViewColumn, commands, window } from 'vscode'
+import * as vscode from 'vscode'
 import { getUri } from '../utilities/getUri'
 import type { Message } from '../../shared/message'
 import { EXTENSION_ID, WEBVIEW_PANEL_VIEW_TYPE } from '../../shared/constants'
@@ -62,28 +62,31 @@ export class DiffPanel {
     this.panel.webview.onDidReceiveMessage(async (message: Message) => {
       if (message.type === 'command')
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        await commands.executeCommand<any>(`${EXTENSION_ID}.${message.command}`, ...message.payload)
+        await vscode.commands.executeCommand<any>(`${EXTENSION_ID}.${message.command}`, ...message.payload)
     })
   }
 }
 
 export class DiffPanelWebview extends DiffPanel {
-  static _panel: WebviewPanel | null = null
+  static _panel: WebviewPanel | null
   disposables: Disposable[] = []
-  constructor() {
+  viewColumn: vscode.ViewColumn
+  constructor(viewColumn: vscode.ViewColumn = vscode.ViewColumn.One) {
     super()
+    this.viewColumn = viewColumn
+
     if (DiffPanelWebview._panel)
-      DiffPanelWebview._panel.reveal(ViewColumn.One)
+      DiffPanelWebview._panel.reveal(viewColumn)
     else
       this.initlize()
   }
 
   initlize() {
-    this.panel = window.createWebviewPanel(WEBVIEW_PANEL_VIEW_TYPE, 'Diff Panel', ViewColumn.One, {
+    this.panel = vscode.window.createWebviewPanel(WEBVIEW_PANEL_VIEW_TYPE, 'Diff Panel', this.viewColumn, {
       enableScripts: true,
       localResourceRoots: [
-        Uri.joinPath(this.context.extensionUri, 'out'),
-        Uri.joinPath(this.context.extensionUri, 'webview-ui/build'),
+        vscode.Uri.joinPath(this.context.extensionUri, 'out'),
+        vscode.Uri.joinPath(this.context.extensionUri, 'webview-ui/build'),
       ],
       retainContextWhenHidden: true,
     })
@@ -98,10 +101,26 @@ export class DiffPanelWebview extends DiffPanel {
   }
 }
 
-export function revealDiffPanel() {
-  if (DiffPanelWebview._panel)
-    DiffPanelWebview._panel.reveal(ViewColumn.One)
-  else
+export async function revealDiffPanel() {
+  let tab: vscode.Tab | null = null
+  let tabIndex = -1
+  vscode.window.tabGroups.activeTabGroup.tabs.some((t, index) => {
+    const input = t.input as { viewType: string }
+    if (
+      input?.viewType?.endsWith(WEBVIEW_PANEL_VIEW_TYPE)
+    ) {
+      tab = t
+      tabIndex = index
+      return true
+    }
+    return false
+  })
+  if (tab) {
+    await vscode.commands.executeCommand('workbench.action.openEditorAtIndex', [tabIndex])
+  }
+  else {
     // eslint-disable-next-line no-new
-    new DiffPanelWebview()
+    new DiffPanelWebview(vscode.window.tabGroups.activeTabGroup.viewColumn)
+  }
+  await vscode.commands.executeCommand('diff-panel-folder.focus')
 }
