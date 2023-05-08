@@ -6,7 +6,7 @@ import { getExtensionContext } from '../extension'
 import type { DiffExplorerItem } from '../../shared/state'
 import { DiffExplorerType } from '../../shared/state'
 import { treeview } from '../activity-bar/explorer'
-import type { DiffTreeItem, FolderTreeItem } from '../activity-bar/explorer'
+import type { DiffTreeItem, FileTreeItem, FolderTreeItem } from '../activity-bar/explorer'
 import { logger } from './log'
 import { showErrorMessage } from './message'
 
@@ -154,6 +154,15 @@ class FileStorageService {
         showErrorMessage(`move failed: ${e.message}`)
       })
     }))
+  }
+
+  async readText(node: FileTreeItem) {
+    const result = await fs.readFile(node.context.path, 'utf-8').catch((e: Error) => {
+      logger.error(e)
+      showErrorMessage(`read file failed: ${e.message}`)
+      return e
+    })
+    return result instanceof Error ? [result, null] : [null, result]
   }
 
   async getChildren(fromPath: string = this.dataDir): Promise<DiffExplorerItem[]> {

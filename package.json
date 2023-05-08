@@ -51,12 +51,12 @@
       },
       {
         "command": "diff-panel.asLeftDiff",
-        "title": "Diff Panel: Left Diff Content",
+        "title": "Diff Panel: As Left Diff Content",
         "icon": "$(arrow-left)"
       },
       {
         "command": "diff-panel.asRightDiff",
-        "title": "Diff Panel: Left Diff Content",
+        "title": "Diff Panel: As Right Diff Content",
         "icon": "$(arrow-right)"
       }
     ],

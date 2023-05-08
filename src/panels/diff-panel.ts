@@ -4,6 +4,8 @@ import { getUri } from '../utilities/getUri'
 import type { Message } from '../../shared/message'
 import { EXTENSION_ID, WEBVIEW_PANEL_VIEW_TYPE } from '../../shared/constants'
 import { getExtensionContext } from '../extension'
+import type { FileTreeItem } from '../activity-bar/explorer'
+import { fileStorage } from '../utilities/storage'
 
 export class DiffPanel {
   disposables: Disposable[] = []
@@ -61,7 +63,7 @@ export class DiffPanel {
 
     this.panel.webview.onDidReceiveMessage(async (message: Message) => {
       if (message.type === 'command')
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
         await vscode.commands.executeCommand<any>(`${EXTENSION_ID}.${message.command}`, ...message.payload)
     })
   }
@@ -123,4 +125,24 @@ export async function revealDiffPanel() {
     new DiffPanelWebview(vscode.window.tabGroups.activeTabGroup.viewColumn)
   }
   await vscode.commands.executeCommand('diff-panel-folder.focus')
+}
+
+export async function sendTextToDiffPanel(node: FileTreeItem, leftOrRight: 'left' | 'right') {
+  const panel = DiffPanelWebview._panel
+  if (!panel)
+    return
+
+  let text = ''
+
+  const [_error, result] = await fileStorage.readText(node)
+  if (typeof result === 'string')
+    text = result
+  else
+    return
+
+  await panel.webview.postMessage({
+    type: 'diff-content',
+    leftOrRight,
+    payload: text,
+  })
 }

@@ -1,14 +1,20 @@
-type MessageType = 'command'
+type MessageType = 'command' | 'diff-content'
 
 export interface BaseMessage<P> {
   type: MessageType
   payload: P
 }
 
-export interface CommandMessage extends BaseMessage<unknown> {
+export interface CommandMessage extends BaseMessage<string[]> {
   type: 'command'
   command: string
-  payload: any[]
+  payload: string[]
 }
 
-export type Message = CommandMessage
+export interface DiffContentMessage extends BaseMessage<string> {
+  type: 'diff-content'
+  leftOrRight: 'left' | 'right'
+  payload: string
+}
+
+export type Message = CommandMessage | DiffContentMessage

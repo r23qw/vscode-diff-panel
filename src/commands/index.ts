@@ -1,16 +1,16 @@
 import { commands } from 'vscode'
 import { EXTENSION_ID } from '../../shared/constants'
-import { revealDiffPanel } from '../panels/diff-panel'
+import { revealDiffPanel, sendTextToDiffPanel } from '../panels/diff-panel'
 import { fileStorage } from '../utilities/storage'
 import { treeDataProvider } from '../activity-bar/explorer'
-import type { FileTreeItem, FolderTreeItem } from '../activity-bar/explorer'
+import type { DiffTreeItem, FileTreeItem, FolderTreeItem } from '../activity-bar/explorer'
 
 export function registerCommands() {
   const commandList = [
     {
       command: 'newDiffEditor',
-      handler: () => {
-        revealDiffPanel()
+      handler: async () => {
+        await revealDiffPanel()
       },
     },
     {
@@ -31,14 +31,14 @@ export function registerCommands() {
     },
     {
       command: 'rename',
-      handler: async (node: FileTreeItem | FolderTreeItem) => {
+      handler: async (node: DiffTreeItem) => {
         await fileStorage.rename(node)
         treeDataProvider.refresh()
       },
     },
     {
       command: 'delete',
-      handler: async (node: FileTreeItem | FolderTreeItem) => {
+      handler: async (node: DiffTreeItem) => {
         await fileStorage.remove(node)
         treeDataProvider.refresh()
       },
@@ -51,14 +51,16 @@ export function registerCommands() {
     },
     {
       command: 'asLeftDiff',
-      handler: () => {
-        revealDiffPanel()
+      handler: async (node: FileTreeItem) => {
+        await revealDiffPanel()
+        await sendTextToDiffPanel(node, 'left')
       },
     },
     {
       command: 'asRightDiff',
-      handler: () => {
-        revealDiffPanel()
+      handler: async (node: FileTreeItem) => {
+        await revealDiffPanel()
+        await sendTextToDiffPanel(node, 'right')
       },
     },
   ]
